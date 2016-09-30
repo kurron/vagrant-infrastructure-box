@@ -9,8 +9,8 @@ Vagrant.configure("2") do |config|
     config.vm.boot_timeout = 300
     config.vm.box = "kurron/xenial-x64-server"
     config.vm.box_check_update = true
-    config.vm.box_download_checksum = "67b6d06c85749e77d42be8051513bc35"
-    config.vm.box_download_checksum_type = "md5"
+#   config.vm.box_download_checksum = "67b6d06c85749e77d42be8051513bc35"
+#   config.vm.box_download_checksum_type = "md5"
 #   config.vm.box_url = "https://d2eko4jw6kz4m.cloudfront.net/5.1.4/xenial-x64-server.box"
     config.vm.graceful_halt_timeout = 60
     config.vm.post_up_message = "Login credentials are vagrant/vagrant"
@@ -41,22 +41,10 @@ Vagrant.configure("2") do |config|
         remote.path = "scripts/install-docker.sh"
     end
 
-    project = ENV['DOCKER_USER_PLAYS']
-    config.vm.provision "shell" do |custom|
-        custom.path = "scripts/install-custom.sh"
-        custom.args = project 
-    end
-
-    project = ENV['DOCKER_CORPORATE_PLAYS']
-    config.vm.provision "shell" do |corporate|
-        corporate.path = "scripts/install-corporate.sh"
-        corporate.args = project
-    end
-
     config.vm.define "server" do |server|
         # put the box on the network so we can participate in multi-host networking
         server.vm.network "public_network"
-        server.vm.hostname="xenial"
+        server.vm.hostname="toolbox"
         server.vm.provider "virtualbox" do |v|
             v.gui = true
             v.name = "jvmguy.server"
