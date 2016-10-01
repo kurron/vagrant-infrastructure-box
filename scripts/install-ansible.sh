@@ -18,7 +18,12 @@ until sudo apt-get update ; do echo "Waiting for apt-get lock" ; sleep 5 ; done
 sudo apt-get install -y python-pip python-dev build-essential libssl-dev libffi-dev
 sudo pip install --upgrade pip
 sudo pip install --upgrade ansible
-#sudo pip install --upgrade boto
+
+# Ansible currently breaks on the new docker-py 1.10.0 so we pin it for now.
+# https://github.com/ansible/ansible/issues/17495
+#sudo pip install --upgrade ansible setuptools docker-py
+sudo pip install --upgrade ansible setuptools
+sudo pip install 'docker-py==1.9.0'
 
 # signal a successful provision
 touch ${DONEFILE}
